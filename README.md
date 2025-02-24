@@ -93,3 +93,6 @@ Given a user query (a movie plot or description), the system computes the simila
 MovieSummaries/ - Folder for movie data
 MovieSummaries/movie_summaries.txt — Contains the movie plot summaries.
 MovieSummaries/movie.metadata.tsv — Contains the metadata of movies including genres, languages, and countries.
+
+### Salary expectations:
+About $40-45, depending on the location. Based on past work experience + Masters.
