@@ -1,91 +1,88 @@
-# AI/Machine Learning Intern Challenge: Simple Content-Based Recommendation
+# Movie Recommendation System
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+This project implements a content-based movie recommendation system that combines movie plot summaries with metadata (genres, languages, and countries) to generate movie suggestions based on user input.
+1. The code preprocesses the data and ensures we have both the plot summary and attributes for the movie. 
+2. It computes the features for the movie summaries and caches them for faster retrieval
+3. It computes the features for various metadata attributes and caches them
+4. It computes the cosine similarities and returns the top N matches. 
 
----
-
-## Overview
-
-Build a **content-based recommendation system** that, given a **short text description** of a user’s preferences, suggests **similar items** (e.g., movies) from a small dataset. This challenge should take about **3 hours**, so keep your solution **simple** yet **functional**.
-
-### Example Use Case
-
-- The user inputs:  
-  *"I love thrilling action movies set in space, with a comedic twist."*  
-- Your system processes this description (query) and compares it to a dataset of items (e.g., movies with their plot summaries or keywords).  
-- You then return the **top 3–5 “closest” matches** to the user.
-
----
 
 ## Requirements
 
-1. **Dataset**  
-   - Use a **small** public dataset of items (e.g., a list of movies with plot summaries, or other textual descriptions).  
-   - Make sure the dataset is easy to handle (maybe 100–500 rows) so the solution remains quick to implement and run.  
-   - Include the dataset in your forked repository *or* provide instructions/link on how to download it.  
+To run this recommendation system, you need to have the following Python packages installed:
 
-2. **Approach**  
-   - **Content-Based**: At a minimum, use text similarity to recommend items.  
-     - For instance, you can transform both the user’s text input and each item’s description into TF-IDF vectors and compute **cosine similarity**.  
-   - Return the **top N** similar items (e.g., top 5).
+- `pandas`
+- `numpy`
+- `sentence-transformers`
+- `scikit-learn`
+- `argparse`
 
-3. **Code Organization**  
-   - You may use a **Jupyter Notebook** or **Python scripts**.  
-   - Keep it **readable** and **modular** (e.g., one section for loading data, one for building vectors, one for computing similarity, etc.).  
-   - Briefly comment or docstring your key functions/sections.
+You can install them via pip:
 
-4. **Output**  
-   - When given an input description (e.g., `"I like action movies set in space"`), your system should print or return a list of recommended items (e.g., 3–5 titles).  
-   - Include the similarity score or rank if you’d like.
+```bash
+pip install pandas numpy sentence-transformers scikit-learn argparse
+```
+or 
+```bash
+pip install -r requirements.txt
+```
+The data has been included in the github repo, but you can also download the data from [https://www.cs.cmu.edu/~ark/personas/](https://www.cs.cmu.edu/~ark/personas/). Unzip into the root project directory. 
 
-5. **Summary & Instructions**  
-   - A short `README.md` that includes:
-     - **Dataset**: Where it’s from, any steps to load it.  
-     - **Setup**: Python version, virtual environment instructions, and how to install dependencies (`pip install -r requirements.txt`).  
-     - **Running**: How to run your code (e.g., `python recommend.py "Some user description"` or open your notebook in Jupyter).  
-     - **Results**: A brief example of your system’s output for a sample query.
+# Examples
 
----
+You can cd/ in to the src directory and simply call 
+```bash
+python main.py "Example Prompt"
+```
+An example prompt tested here is: 
+```bash
+ python main.py --query "I love English movies that have sci-fi elements, talk about the invention of a new science theorem, and are historically based."
+```
 
-## Deliverables
+The outcome is as follows: 
 
-1. **Fork the Public Repository**  
-   - **Fork** this repo into your own GitHub account.
+Loading and processing data...
+Finding recommendations...
+Movie ID: 12073433
+Movie Name: The Beginning or the End
+Similarity: 0.3687
+Metadata: {'Wikipedia Movie ID': '12073433', 'Plot': 'The film dramatizes the creation of the atomic bomb in the Manhattan Project and the subsequent bombing of Japan.', 'Freebase Movie ID': '/m/02vnx_8', 'Movie Name': 'The Beginning or the End', 'Release Date': '1947-02-19', 'Box Office Revenue': nan, 'Runtime': 112.0, 'Languages': '{"/m/02h40lc": "English Language"}', 'Countries': '{"/m/09c7w0": "United States of America"}', 'Genres': '{"/m/02l7c8": "Romance Film", "/m/07s9rl0": "Drama", "/m/01g6gs": "Black-and-white", "/m/082gq": "War film"}'}
+--------------------------------------------------
+Movie ID: 26213151
+Movie Name: Remote Control
+Similarity: 0.3662
+Metadata: {'Wikipedia Movie ID': '26213151', 'Plot': "A video store clerk stumbles onto an alien plot to take over earth by brainwashing people with a bad '50s science fiction movie. He and his friends race to stop the aliens before the tapes can be distributed world-wide.", 'Freebase Movie ID': '/m/0b77wr3', 'Movie Name': 'Remote Control', 'Release Date': '1988-04-07', 'Box Office Revenue': nan, 'Runtime': 88.0, 'Languages': '{"/m/02h40lc": "English Language"}', 'Countries': '{"/m/09c7w0": "United States of America"}', 'Genres': '{"/m/05p553": "Comedy film", "/m/03npn": "Horror", "/m/06n90": "Science Fiction"}'}
+--------------------------------------------------
+Movie ID: 19165692
+Movie Name: The Man Who Wouldn't Talk
+Similarity: 0.3639
+Metadata: {'Wikipedia Movie ID': '19165692', 'Plot': 'A courtroom drama, it sees an American scientist charged for murder by the British police for his supposed role in the death of an Eastern Bloc defector.', 'Freebase Movie ID': '/m/04ljctk', 'Movie Name': "The Man Who Wouldn't Talk", 'Release Date': '1958-01-21', 'Box Office Revenue': nan, 'Runtime': 91.0, 'Languages': '{"/m/02h40lc": "English Language"}', 'Countries': '{"/m/07ssc": "United Kingdom"}', 'Genres': '{"/m/0lsxr": "Crime Fiction", "/m/07s9rl0": "Drama"}'}
+--------------------------------------------------
+Movie ID: 2042539
+Movie Name: The District!
+Similarity: 0.3596
+Metadata: {'Wikipedia Movie ID': '2042539', 'Plot': "The film displays the Hungarian, Roma, Chinese and Arab dwellers and their alliances and conflicts in a humorous way, embedded into a fictive story of a few schoolchildren's oil-making time-travel and a Romeo and Juliet-type love of a Roma guy towards a white girl.", 'Freebase Movie ID': '/m/06h2sy', 'Movie Name': 'The District!', 'Release Date': '2004-12-09', 'Box Office Revenue': nan, 'Runtime': 87.0, 'Languages': '{"/m/012psb": "Romani language", "/m/02h40lc": "English Language", "/m/02ztjwg": "Hungarian language"}', 'Countries': '{"/m/03gj2": "Hungary"}', 'Genres': '{"/m/01z4y": "Comedy", "/m/03q4nz": "World cinema", "/m/0hcr": "Animation"}'}
+--------------------------------------------------
+Movie ID: 17945020
+Movie Name: Simon
+Similarity: 0.3509
+Metadata: {'Wikipedia Movie ID': '17945020', 'Plot': 'The Institute for Advanced Concepts, a group of scientists with an unlimited budget and a propensity for elaborate pranks, brainwash a psychology professor named Simon Mendelssohn who was abandoned at birth and manage to convince him, and the rest of the world, that he is of extraterrestrial origin. Simon escapes and attempts to reform American culture by overriding TV signals with a high power TV transmitter, becoming a national celebrity in the process.', 'Freebase Movie ID': '/m/047tdq7', 'Movie Name': 'Simon', 'Release Date': '1980-02', 'Box Office Revenue': 6000000.0, 'Runtime': 97.0, 'Languages': '{"/m/02h40lc": "English Language"}', 'Countries': '{"/m/09c7w0": "United States of America"}', 'Genres': '{"/m/06n90": "Science Fiction", "/m/06nbt": "Satire", "/m/01z4y": "Comedy"}'}
+--------------------------------------------------
 
-2. **Implement Your Solution**  
-   - Load and preprocess your dataset (e.g., read CSV, handle text columns).  
-   - Convert text data to vectors (e.g., TF-IDF).  
-   - Implement a function to compute similarity between the user’s query and each item’s description.  
-   - Return the top matches.
-   - Salary expectation per month (Mandatory)
+To regenerate the cache/embeddings, just delete the embeddings.npz and metadata_embeddings.npz. 
 
-3. **Short Video Demo**  
-   - In a `.md` file (e.g., `demo.md`) within your fork, paste a link to a **brief screen recording** (video link).  
-   - Demonstrate:
-     - How you run the recommendation code.  
-     - A sample query and the results.
+# How It Works
+The system uses two models from the sentence-transformers library:
 
-4. **Deadline**  
-   - Submit your fork by **Sunday, Feb 23th 11:59 pm PST**.
+all-MiniLM-L6-v2 for encoding movie plot summaries into embeddings.
+paraphrase-distilroberta-base-v1 for encoding movie metadata (Genres, Languages, Countries) into embeddings.
 
-> **Note**: This should be doable within ~3 hours. Keep it **straightforward**—you do **not** need advanced neural networks or complex pipelines. A simple TF-IDF + cosine similarity approach is sufficient.
+I chose those 2 models according to the task: all-MiniLM model is better at leanring longer semantic and contextual info, while the paraphrase is good for specific features such as language, genre. 
 
----
 
-## Evaluation Criteria
+Given a user query (a movie plot or description), the system computes the similarity between the query and movie plots as well as the metadata. The recommendation system then returns the top N most similar movies based on both plot and metadata similarities.
 
-1. **Functionality**  
-   - Does your code run without errors?  
-   - When given an input query, does it successfully output relevant items?
-
-2. **Code Quality**  
-   - Clear, commented code (where it counts).  
-   - Logical steps (load data → transform → recommend).
-
-3. **Clarity**  
-   - Is your `README.md` straightforward about setup, how to run, and what to expect?
-
-4. **ML/Recommendation Understanding**  
-   - Basic implementation of a content-based recommendation approach (vectorization, similarity measure).
-
-**We look forward to seeing your solution!** Good luck!
+# Data Structure
+MovieSummaries/ - Folder for movie data
+MovieSummaries/movie_summaries.txt — Contains the movie plot summaries.
+MovieSummaries/movie.metadata.tsv — Contains the metadata of movies including genres, languages, and countries.
