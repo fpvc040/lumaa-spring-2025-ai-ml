@@ -9,6 +9,7 @@ This project implements a content-based movie recommendation system that combine
 ### Note: The first time, the pipeline caches the embeddings, but it may take some time. The embeddings have been processed in batches, and there are live progress bars. 
 
 ## Video Output Example
+The example shows the change in video recommendations using a similar prompt for action genre but in different locations:  one space and intergalactic themed, and the other ocean and island themed. 
 [![Live recommendations using python recommender system](https://drive.google.com/file/d/1aoYqxBHPjYmD4rqT7ygYioYNpPC5bfJN/view?usp=sharing)](https://drive.google.com/file/d/1aoYqxBHPjYmD4rqT7ygYioYNpPC5bfJN/view?usp=sharing)
 
 ## Requirements
