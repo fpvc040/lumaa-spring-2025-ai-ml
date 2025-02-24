@@ -6,6 +6,10 @@ This project implements a content-based movie recommendation system that combine
 3. It computes the features for various metadata attributes and caches them
 4. It computes the cosine similarities and returns the top N matches. 
 
+### Note: The first time, the pipeline caches the embeddings, but it may take some time. The embeddings have been processed in batches, and there are live progress bars. 
+
+## Video Output Example
+[![Live recommendations using python recommender system](https://drive.google.com/file/d/1aoYqxBHPjYmD4rqT7ygYioYNpPC5bfJN/view?usp=sharing)](https://drive.google.com/file/d/1aoYqxBHPjYmD4rqT7ygYioYNpPC5bfJN/view?usp=sharing)
 
 ## Requirements
 
@@ -32,7 +36,7 @@ The data has been included in the github repo, but you can also download the dat
 
 You can cd/ in to the src directory and simply call 
 ```bash
-python main.py "Example Prompt"
+python main.py --query "Example Prompt"
 ```
 An example prompt tested here is: 
 ```bash
@@ -40,7 +44,8 @@ An example prompt tested here is:
 ```
 
 The outcome is as follows: 
-
+```bash
+python main.py --query "I love English movies that have sci-fi elements, talk about the invention of a new science theorem, and are historically based."
 Loading and processing data...
 Finding recommendations...
 Movie ID: 12073433
@@ -68,6 +73,7 @@ Movie Name: Simon
 Similarity: 0.3509
 Metadata: {'Wikipedia Movie ID': '17945020', 'Plot': 'The Institute for Advanced Concepts, a group of scientists with an unlimited budget and a propensity for elaborate pranks, brainwash a psychology professor named Simon Mendelssohn who was abandoned at birth and manage to convince him, and the rest of the world, that he is of extraterrestrial origin. Simon escapes and attempts to reform American culture by overriding TV signals with a high power TV transmitter, becoming a national celebrity in the process.', 'Freebase Movie ID': '/m/047tdq7', 'Movie Name': 'Simon', 'Release Date': '1980-02', 'Box Office Revenue': 6000000.0, 'Runtime': 97.0, 'Languages': '{"/m/02h40lc": "English Language"}', 'Countries': '{"/m/09c7w0": "United States of America"}', 'Genres': '{"/m/06n90": "Science Fiction", "/m/06nbt": "Satire", "/m/01z4y": "Comedy"}'}
 --------------------------------------------------
+```
 
 To regenerate the cache/embeddings, just delete the embeddings.npz and metadata_embeddings.npz. 
 
